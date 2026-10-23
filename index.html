@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каталог клонов: Riesling, Chardonnay, Pinot Noir</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+    --color-bg: #F0F0F0;
+    --color-text: #2C2C2C;
+    --color-text-light: #666666;
+    --color-riesling: #2E5C38;
+    --color-chard: #B8860B;
+    --color-pn: #8B1E3F;
+    --color-border: #E5E5E5;
+    --color-soft: #F9F9F9;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.page {
+    width: 100%;
+    max-width: 210mm; /* A4 width */
+    min-height: 297mm; /* A4 height */
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    page-break-after: always;
+}
+
+/* Header */
+.page-header {
+    padding: 25px 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.page-header.riesling { background-color: var(--color-riesling); }
+.page-header.chard { background-color: var(--color-chard); }
+.page-header.pn { background-color: var(--color-pn); }
+.page-header.summary { background-color: #2C2C2C; }
+
+.brand { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+.doc-number { font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; }
+
+/* Content */
+.page-content {
+    padding: 30px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+.section-title.riesling { color: var(--color-riesling); border-bottom: 2px solid var(--color-riesling); }
+.section-title.chard { color: var(--color-chard); border-bottom: 2px solid var(--color-chard); }
+.section-title.pn { color: var(--color-pn); border-bottom: 2px solid var(--color-pn); }
+.section-title.summary { color: #2C2C2C; border-bottom: 2px solid #2C2C2C; }
+
+.intro-text {
+    font-size: 0.88rem;
+    color: var(--color-text-light);
+    text-align: justify;
+    line-height: 1.7;
+    background: var(--color-soft);
+    padding: 15px;
+    border-left: 4px solid;
+    border-radius: 0 4px 4px 0;
+}
+.intro-text.riesling { border-color: var(--color-riesling); }
+.intro-text.chard { border-color: var(--color-chard); }
+.intro-text.pn { border-color: var(--color-pn); }
+
+/* Clone Grid */
+.clone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.clone-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-left: 4px solid;
+    padding: 15px;
+    border-radius: 0 4px 4px 0;
+}
+.clone-card.riesling { border-left-color: var(--color-riesling); }
+.clone-card.chard { border-left-color: var(--color-chard); }
+.clone-card.pn { border-left-color: var(--color-pn); }
+
+.clone-id {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 4px;
+}
+.clone-purpose {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.clone-purpose.riesling { color: var(--color-riesling); }
+.clone-purpose.chard { color: var(--color-chard); }
+.clone-purpose.pn { color: var(--color-pn); }
+.clone-desc { font-size: 0.82rem; color: var(--color-text-light); line-height: 1.5; }
+
+/* Warning / Note Box */
+.note-box {
+    background: #FFF8E1;
+    border-left: 4px solid #B8860B;
+    padding: 15px;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+    color: var(--color-text);
+    line-height: 1.6;
+}
+.note-box strong { color: #8B6914; }
+
+/* Summary Table */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-top: 10px;
+}
+.summary-table th {
+    text-align: left;
+    padding: 10px;
+    background: var(--color-soft);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid var(--color-border);
+}
+.summary-table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    vertical-align: top;
+}
+
+/* Footer */
+.page-footer {
+    padding: 15px 30px;
+    background-color: var(--color-soft);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+@media (max-width: 800px) {
+    .page { min-height: auto; height: auto; }
+    .clone-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= СТРАНИЦА 1: RIESLING ================= -->
+<div class="page">
+    <header class="page-header riesling">
+        <div class="brand">SARL du Vieux Puit / Pépinières Jenny</div>
+        <div class="doc-number">Каталог клонов 2026 · Riesling</div>
+    </header>
+
+    <div class="page-content">
+        <div class="intro-text riesling">
+            Французский питомник <strong>SARL du Vieux Puit</strong> (Бордо), входящий в структуру ENTAV-INRA, поставляет саженцы по официальным стандартам. Каталог французских клонов Рислинга (Riesling B) стандартизирован государственным институтом IFV / Plantgrape. Во Франции официально зарегистрировано 8 сертифицированных клонов. Ниже приведены характеристики основных клонов и рекомендации по их выбору.
+        </div>
+
+        <h2 class="section-title riesling">Классические и новые премиальные клоны</h2>
+        <div class="clone-grid">
+            <div class="clone-card riesling">
+                <div class="clone-id">Клон 49</div>
+                <div class="clone-purpose riesling">Классический базовый</div>
+                <div class="clone-desc">Исторический и самый распространенный французский клон. Имеет среднюю силу роста и среднюю урожайность. Дает типичные, хорошо сбалансированные вина с классической для сорта высокой кислотностью. Идеален для производства традиционных сухих вин.</div>
+            </div>
+            <div class="clone-card riesling">
+                <div class="clone-id">Клон 1089</div>
+                <div class="clone-purpose riesling">Новый премиальный (Ароматика)</div>
+                <div class="clone-desc">Рекомендуется для яркого ароматического профиля. Обладает высоким потенциалом накопления сахара (дает примерно на 0,5% больше потенциального алкоголя, чем старые клоны). На слепых дегустациях регулярно получает высшие органолептические оценки за интенсивный сортовой аромат. Уровень кислотности чуть ниже среднего.</div>
+            </div>
+            <div class="clone-card riesling">
+                <div class="clone-id">Клон 1091</div>
+                <div class="clone-purpose riesling">Новый премиальный (Выдержка)</div>
+                <div class="clone-desc">Рекомендуется для вин с большим потенциалом выдержки. Уникальное свойство: при очень высоком потенциале накопления сахара сохраняет экстремально высокий уровень кислотности. Идеальный выбор для премиальных структурных сухих вин или сладких вин позднего сбора.</div>
+            </div>
+            <div class="clone-card riesling">
+                <div class="clone-id">Клон 1090</div>
+                <div class="clone-purpose riesling">Технический / Сбалансированный</div>
+                <div class="clone-desc">Технический клон с хорошим балансом, показывающий высокий уровень зрелости (сахара) к моменту сбора. Также относится к новой серии, обладающей более рыхлой гроздью по сравнению с историческими клонами.</div>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <strong>⚠ Управление риском серой гнили (Botrytis):</strong> Рислинг имеет плотную гроздь и чувствителен к гнилям. Если ваш терруар влажный, уточняйте у питомника поставку клонов с более рыхлой гроздью. Среди французских это новые клоны серии 1090-х. В качестве альтернативы из немецкой селекции рассматриваются клоны типа <strong>Gm 198-10</strong>.
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div>Сертифицированный материал ENTAV-INRA. Окончательный выбор требует анализа микроклимата участка.</div>
+        <div>www.pepinieresduvieuxpuit.com</div>
+    </footer>
+</div>
+
+<!-- ================= СТРАНИЦА 2: CHARDONNAY ================= -->
+<div class="page">
+    <header class="page-header chard">
+        <div class="brand">SARL du Vieux Puit / Pépinières Jenny</div>
+        <div class="doc-number">Каталог клонов 2026 · Chardonnay</div>
+    </header>
+
+    <div class="page-content">
+        <div class="intro-text chard">
+            Выбор клонов Шардоне для заказа у французского питомника зависит от планируемого стиля вина: тонкий и минеральный, богатый и комплексный, или легкий и свежий для игристых вин. Питомник работает по официальным стандартам ENTAV-INRA, поставляя сертифицированные французские клоны, включая знаменитую «Дижонскую» селекцию.
+        </div>
+
+        <h2 class="section-title chard">Качественные («Дижонские») клоны — Премиальный стиль</h2>
+        <div class="clone-grid">
+            <div class="clone-card chard">
+                <div class="clone-id">Клон 76</div>
+                <div class="clone-purpose chard">Базовый премиум</div>
+                <div class="clone-desc">Один из самых популярных базовых клонов в мире. Дает стабильный, регулярный урожай. Вина получаются очень сбалансированными, тонкими, с хорошим уровнем кислотности и выраженными сортовыми ароматами.</div>
+            </div>
+            <div class="clone-card chard">
+                <div class="clone-id">Клон 95</div>
+                <div class="clone-purpose chard">Плотность и тело</div>
+                <div class="clone-desc">Отличается прекрасной органолептикой. Вина выходят плотными, маслянистыми, с богатым телом и долгим финишем. Обладает высокой регулярной плодоносностью.</div>
+            </div>
+            <div class="clone-card chard">
+                <div class="clone-id">Клон 548</div>
+                <div class="clone-purpose chard">Ультра-премиум / Выдержка</div>
+                <div class="clone-desc">Настоящий «премиум-клон» с низкой урожайностью, но выдающимся качеством ягод. Накапливает много сахара, устойчив к серой гнили. Вина получаются мощными, сложными, с тропическими и маслянистыми нотами, отлично подходящими для долгой выдержки.</div>
+            </div>
+        </div>
+
+        <h2 class="section-title chard">Ароматические и высокоурожайные клоны</h2>
+        <div class="clone-grid">
+            <div class="clone-card chard">
+                <div class="clone-id">Клон 809</div>
+                <div class="clone-purpose chard">Мускатный тип (Ассамбляжный)</div>
+                <div class="clone-desc">Уникальный мускатный клон Шардоне. Обладает очень ярким, интенсивным цветочно-фруктовым ароматом (белые цветы, экзотические фрукты, легкий оттенок муската). Используется виноделами в ассамбляжах (до 10–20%), чтобы придать вину парфюмированную сложность и свежесть.</div>
+            </div>
+            <div class="clone-card chard">
+                <div class="clone-id">Клоны 75, 78</div>
+                <div class="clone-purpose chard">Высокоурожайные / Коммерческие</div>
+                <div class="clone-desc">Имеют повышенную силу роста и высокую урожайность. Подходят для производства легких, питких, коммерческих столовых вин без тяжелого дуба.</div>
+            </div>
+            <div class="clone-card chard">
+                <div class="clone-id">Клоны 121, 124, 125</div>
+                <div class="clone-purpose chard">Игристые вина / Прохладный климат</div>
+                <div class="clone-desc">Обладают высокой продуктивностью. Хорошо показывают себя в прохладном климате, сохраняя высокую хрустящую кислотность, что критически важно для производства игристых вин (Base Champagne).</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div>Сертифицированный материал ENTAV-INRA. Окончательный выбор требует анализа микроклимата участка.</div>
+        <div>www.pepinieresduvieuxpuit.com</div>
+    </footer>
+</div>
+
+<!-- ================= СТРАНИЦА 3: PINOT NOIR ================= -->
+<div class="page">
+    <header class="page-header pn">
+        <div class="brand">SARL du Vieux Puit / Европейский Консорциум</div>
+        <div class="doc-number">Каталог клонов 2026 · Pinot Noir</div>
+    </header>
+
+    <div class="page-content">
+        <div class="intro-text pn">
+            Пино-Нуар крайне чувствителен к терруару и агротехнике. Питомники, работающие по стандартам ENTAV-INRA и сотрудничающие с немецкими селекционными станциями (Freiburg), предлагают широкий спектр клонов: от классических бургундских до специализированных, устойчивых к гнилям.
+        </div>
+
+        <h2 class="section-title pn">Рекомендуемые клоны Пино-Нуар</h2>
+        <div class="clone-grid">
+            <div class="clone-card pn">
+                <div class="clone-id">Клон 115</div>
+                <div class="clone-purpose pn">Тихие вина (Классика)</div>
+                <div class="clone-desc">Эталон регулярности и элегантности. Обеспечивает типичный ароматический профиль и хорошую структуру. Требует строгого контроля нагрузки во избежание перегрузки.</div>
+            </div>
+            <div class="clone-card pn">
+                <div class="clone-id">Клон 777</div>
+                <div class="clone-purpose pn">Тихие премиальные вина</div>
+                <div class="clone-desc">Мелкая ягода, высокое отношение площади кожицы к объему сусла. Дает насыщенный цвет, мощную танинную структуру и высокий потенциал к выдержке. Урожайность умеренная.</div>
+            </div>
+            <div class="clone-card pn">
+                <div class="clone-id">Клон 828</div>
+                <div class="clone-purpose pn">Тихие вина / Универсальный</div>
+                <div class="clone-desc">Современный стандарт. Сочетает качество 777 с улучшенной устойчивостью к болезням и более стабильным завязыванием ягод. Сбалансированный округлый профиль.</div>
+            </div>
+            <div class="clone-card pn">
+                <div class="clone-id">Клон 667</div>
+                <div class="clone-purpose pn">Ароматическая тонкость</div>
+                <div class="clone-desc">Выдает вина с максимальной элегантностью и тонкими танинами. Категорически требует жесткой нормировки урожая во избежание перегрузки и фенольной незрелости.</div>
+            </div>
+            <div class="clone-card pn">
+                <div class="clone-id">Клоны 386 / 521</div>
+                <div class="clone-purpose pn">Игристые вина (Шампань)</div>
+                <div class="clone-desc">Высокая фертильность почек, рыхлая гроздь, стабильная урожайность. Идеальное соотношение сахара и кислотности для базовых игристых вин.</div>
+            </div>
+            <div class="clone-card pn">
+                <div class="clone-id">Клон FR 1801</div>
+                <div class="clone-purpose pn">Устойчивость к гнилям</div>
+                <div class="clone-desc">Селекция Фрайбурга. Значительно более рыхлая гроздь по сравнению с традиционными клонами, отличная естественная устойчивость к <em>Botrytis cinerea</em>. Настоятельно рекомендуется для влажного климата.</div>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <strong>⚠ Предостережение по силе роста:</strong> При использовании сильнорослых подвоев (например, SO4) на плодородных почвах, комбинация с мелкоягодными клонами (777, 667) категорически не рекомендуется из-за риска жирования лозы, загущения полога и задержки созревания.
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div>Данные основаны на многолетних испытаниях IFV, CIVC и Geisenheim. Требуется лабораторный анализ почвы.</div>
+        <div>www.european-nursery-consortium.eu</div>
+    </footer>
+</div>
+
+<!-- ================= СТРАНИЦА 4: СТРАТЕГИЯ И ПРОТОКОЛ ================= -->
+<div class="page">
+    <header class="page-header summary">
+        <div class="brand">SARL du Vieux Puit / Pépinières Jenny</div>
+        <div class="doc-number">Стратегия ассамбляжа и протокол заказа</div>
+    </header>
+
+    <div class="page-content">
+        <h2 class="section-title summary">Рекомендации по формированию посадок</h2>
+        
+        <div class="note-box" style="background: #E8F5E9; border-color: #2E7D32; margin-bottom: 20px;">
+            <strong>Стратегия Multiclonal blocks (Многоклоновые блоки):</strong> Для получения комплексного, многогранного вина рекомендуется заказывать у питомника не один клон, а комбинацию. Это страхует от капризов винтажа и усложняет профиль вина.
+        </div>
+
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Сорт</th>
+                    <th>Рекомендуемая комбинация клонов</th>
+                    <th>Цель ассамбляжа</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Riesling</strong></td>
+                    <td>49 + 1089 + 1091</td>
+                    <td>49 дает стабильную основу и объем; 1089 добавляет яркую ароматику; 1091 обеспечивает экстремальную кислотность и структуру для долгой выдержки.</td>
+                </tr>
+                <tr>
+                    <td><strong>Chardonnay</strong></td>
+                    <td>76 + 95 + 809 (10-20%)</td>
+                    <td>76 обеспечивает баланс и регулярность; 95 дает плотность и маслянистость; 809 добавляет парфюмерную сложность и свежесть в финале.</td>
+                </tr>
+                <tr>
+                    <td><strong>Pinot Noir</strong></td>
+                    <td>115 + 777 + FR 1801</td>
+                    <td>115 как элегантная основа; 777 для цвета и танинов; FR 1801 как страховка от серой гнили во влажные винтажи благодаря рыхлой грозди.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title summary" style="margin-top: 30px;">Протокол взаимодействия с питомником</h2>
+        <ul style="margin-left: 20px; font-size: 0.85rem; color: var(--color-text); line-height: 1.7;">
+            <li><strong>Запрос спецификации:</strong> При заказе у SARL du Vieux Puit или Pépinières Jenny явно указывайте желаемый стиль вина. Питомник может предложить альтернативные клоны из своего каталога в 250+ доступных ассамбляжей.</li>
+            <li><strong>Влажный терруар:</strong> Обязательно делайте пометку в заказе о риске серой гнили. Для Рислинга запрашивайте клоны серии 1090-х или немецкий Gm 198-10. Для Шардоне приоритетом становится клон 548. Для Пино-Нуар — клон FR 1801.</li>
+            <li><strong>Прохлада и игристые вина:</strong> Если цель — база для классического метода, запрашивайте клоны с высокой кислотностью и урожайностью: для Шардоне это 121, 124, 125; для Пино-Нуар — 386 или 521.</li>
+            <li><strong>Связка с подвоем:</strong> Хотя питомник предоставляет выбор подвоев, избегайте комбинации сильнорослых подвоев с низкоурожайными, мелкоягодными клонами (например, Пино-Нуар 777 или 667) на плодородных почвах, чтобы не спровоцировать жирование и задержку созревания.</li>
+        </ul>
+
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--color-border); font-size: 0.75rem; color: var(--color-text-light); font-style: italic; text-align: center;">
+            Данный каталог составлен на основе официальной технической документации SARL du Vieux Puit, Pépinières Jenny и реестра клонов IFV / ENTAV-INRA. Окончательный выбор материла должен базироваться на лабораторном анализе почвы и микроклиматических данных конкретного участка.
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div>Официальные стандарты ENTAV-INRA · Сертификация качества</div>
+        <div>www.pepinieresduvieuxpuit.com | www.pepinieres-jenny.com</div>
+    </footer>
+</div>
+
+</body>
+</html>
